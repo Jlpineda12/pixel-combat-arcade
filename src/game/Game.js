@@ -8,6 +8,7 @@ import { FighterAI } from './AI.js';
 
 export const GAME_STATES = {
   MENU: 'MENU',
+  CONTROLS: 'CONTROLS',
   ROUND_INTRO: 'ROUND_INTRO',
   FIGHTING: 'FIGHTING',
   ROUND_OVER: 'ROUND_OVER',
@@ -103,7 +104,17 @@ export class Game {
       this.keys[e.code] = true;
 
       if (this.state === GAME_STATES.MENU) {
-        this.handleMenuInput(e);
+        if (e.code === 'KeyC') {
+          this.sfx.menuConfirm();
+          this.state = GAME_STATES.CONTROLS;
+        } else {
+          this.handleMenuInput(e);
+        }
+      } else if (this.state === GAME_STATES.CONTROLS) {
+        if (e.code === 'Enter' || e.code === 'Escape' || e.code === 'Space' || e.code === 'KeyC') {
+          this.sfx.menuConfirm();
+          this.state = GAME_STATES.MENU;
+        }
       } else if (this.state === GAME_STATES.FIGHTING) {
         this.handleCombatKeyDown(e);
       } else if (this.state === GAME_STATES.MATCH_OVER) {
@@ -475,6 +486,8 @@ export class Game {
 
     if (this.state === GAME_STATES.MENU) {
       this.renderMenu();
+    } else if (this.state === GAME_STATES.CONTROLS) {
+      this.renderControls();
     } else {
       // 1. Stage Background
       this.stage.draw(ctx);
@@ -597,6 +610,64 @@ export class Game {
       ctx.closePath();
       ctx.fill();
     }
+
+    // Controls prompt in menu
+    ctx.textAlign = 'center';
+    ctx.font = '10px "Press Start 2P", monospace';
+    ctx.fillStyle = '#b39ebd';
+    ctx.fillText('PRESS [C] FOR CONTROLS', cx, 392);
+
+    ctx.restore();
+  }
+
+  renderControls() {
+    const { ctx, width } = this;
+    ctx.save();
+    ctx.textAlign = 'center';
+
+    const cx = width / 2;
+
+    // Header
+    ctx.font = '18px "Press Start 2P", monospace';
+    ctx.fillStyle = '#fda415';
+    ctx.fillText('★ HOW TO PLAY ★', cx, 55);
+
+    // Box
+    ctx.fillStyle = 'rgba(25, 12, 30, 0.75)';
+    ctx.fillRect(40, 75, width - 80, 265);
+    ctx.strokeStyle = '#fda415';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(40, 75, width - 80, 265);
+
+    ctx.font = '9.5px "Press Start 2P", monospace';
+    const lines = [
+      { k: 'ARROWS / [A, D]', d: 'MOVE LEFT / RIGHT' },
+      { k: '[W] / [UP]', d: 'JUMP' },
+      { k: '[S] / [DOWN]', d: 'CROUCH / DUCK' },
+      { k: '[SPACE] / [B]', d: 'BLOCK / GUARD (80% REDUCTION)' },
+      { k: '[J] / [Z]', d: 'LIGHT PUNCH (12 DMG)' },
+      { k: '[K] / [X]', d: 'HEAVY KICK (18 DMG)' },
+      { k: '[L] / [C]', d: 'HADOUKEN ENERGY BLAST' },
+      { k: '[P] / [ESC]', d: 'PAUSE GAME' }
+    ];
+
+    let y = 110;
+    lines.forEach(item => {
+      ctx.textAlign = 'left';
+      ctx.fillStyle = '#fda415';
+      ctx.fillText(item.k, 60, y);
+
+      ctx.textAlign = 'right';
+      ctx.fillStyle = '#fff5ea';
+      ctx.fillText(item.d, width - 60, y);
+      y += 28;
+    });
+
+    // Return prompt
+    ctx.textAlign = 'center';
+    ctx.font = '10px "Press Start 2P", monospace';
+    ctx.fillStyle = '#fff5ea';
+    ctx.fillText('PRESS [ENTER] OR [ESC] TO RETURN', cx, 375);
 
     ctx.restore();
   }
