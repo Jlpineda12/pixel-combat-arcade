@@ -1,0 +1,20 @@
+{
+  "name": "pixel-combat-arcade",
+  "version": "1.0.0",
+  "description": "Retro 1v1 Street Fighter style combat game with real-time procedural chiptune battle music via Web Audio API",
+  "type": "module",
+  "scripts": {
+    "test": "node test/qa-runner.js"
+  },
+  "keywords": [
+    "fighting-game",
+    "street-fighter",
+    "arcade",
+    "chiptune",
+    "web-audio-api",
+    "pixel-art",
+    "multimedia-engineering"
+  ],
+  "author": "Jose Luis Pineda Barrera",
+  "license": "MIT"
+}
