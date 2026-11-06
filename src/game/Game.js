@@ -1,5 +1,6 @@
 // Main Combat Arcade Game State Machine & Battle Controller
 
+import { renderThemedMenu, drawThemedBackdrop } from './MenuFX.js';
 import { Fighter, STATES } from './Fighter.js';
 import { Projectile } from './Projectile.js';
 import { ParticleSystem } from './Particles.js';
@@ -517,111 +518,27 @@ export class Game {
         this.renderPauseOverlay();
       }
     }
-
-    // Specular curved reflections on the CRT glass
-    this.drawGlassReflections();
+    // Glass glare is now rendered by the CRT shell (CSS)
 
     ctx.restore();
   }
 
   renderMenu() {
-    const { ctx, width } = this;
-    ctx.save();
-
-    // Plum Purple background matching Snake Arcade reference
-    ctx.fillStyle = '#351d3d';
-    ctx.fillRect(0, 0, this.width, this.height);
-
-    // Subtle grid
-    ctx.strokeStyle = 'rgba(92, 54, 102, 0.35)';
-    ctx.lineWidth = 1;
-    for (let x = 0; x <= this.width; x += 20) {
-      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, this.height); ctx.stroke();
-    }
-    for (let y = 0; y <= this.height; y += 20) {
-      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(this.width, y); ctx.stroke();
-    }
-
-    // Top-Left: HI-SCORE
-    ctx.font = '14px "Press Start 2P", monospace';
-    ctx.fillStyle = '#fff5ea';
-    ctx.fillText('HI-SCORE', 34, 46);
-
-    ctx.fillStyle = '#fda415';
-    ctx.fillText(this.highScore.toString().padStart(6, '0'), 34, 72);
-
-    // Top-Right: 5 Orange Pixel Hearts
-    this.drawPixelHearts(380, 36, 5);
-
-    // Center Big Orange Title: COMBAT
-    ctx.textAlign = 'center';
-    const cx = width / 2;
-
-    ctx.font = '46px "Press Start 2P", monospace';
-    ctx.fillStyle = '#7d3309';
-    ctx.fillText('COMBAT', cx, 194);
-
-    ctx.fillStyle = '#fc7814';
-    ctx.fillText('COMBAT', cx, 190);
-
-    ctx.save();
-    ctx.beginPath();
-    ctx.rect(0, 140, width, 24);
-    ctx.clip();
-    ctx.fillStyle = '#fda415';
-    ctx.fillText('COMBAT', cx, 190);
-    ctx.restore();
-
-    ctx.font = '12px "Press Start 2P", monospace';
-    ctx.fillStyle = '#ff334b';
-    ctx.fillText('★ RETRO 1V1 ARCADE FIGHTER ★', cx, 230);
-
-    // Subtitle: ARE YOU READY?
-    ctx.font = '14px "Press Start 2P", monospace';
-    ctx.fillStyle = '#fff5ea';
-    ctx.fillText('ARE YOU READY?', cx, 295);
-
-    // Options: YES ◀       NO
-    ctx.font = '18px "Press Start 2P", monospace';
-    ctx.textAlign = 'right';
-    ctx.fillStyle = '#fff5ea';
-    ctx.fillText('YES', 230, 354);
-
-    if (this.selectedChoice === 'YES') {
-      ctx.fillStyle = '#fda415';
-      ctx.beginPath();
-      ctx.moveTo(244, 346);
-      ctx.lineTo(258, 338);
-      ctx.lineTo(258, 354);
-      ctx.closePath();
-      ctx.fill();
-    }
-
-    ctx.textAlign = 'left';
-    ctx.fillStyle = '#fff5ea';
-    ctx.fillText('NO', 320, 354);
-
-    if (this.selectedChoice === 'NO') {
-      ctx.fillStyle = '#fda415';
-      ctx.beginPath();
-      ctx.moveTo(366, 346);
-      ctx.lineTo(380, 338);
-      ctx.lineTo(380, 354);
-      ctx.closePath();
-      ctx.fill();
-    }
-
-    // Controls prompt in menu
-    ctx.textAlign = 'center';
-    ctx.font = '10px "Press Start 2P", monospace';
-    ctx.fillStyle = '#b39ebd';
-    ctx.fillText('PRESS [C] FOR CONTROLS', cx, 392);
-
-    ctx.restore();
+    // Themed animated title screen (backdrop, wave title, attract-mode scene)
+    renderThemedMenu(this.ctx, {
+      id: 'combat',
+      width: this.canvas.width,
+      height: this.canvas.height,
+      highScore: this.highScore,
+      choice: this.selectedChoice
+    });
   }
 
   renderControls() {
     const { ctx, width } = this;
+    drawThemedBackdrop(ctx, 'combat', this.canvas.width, this.canvas.height);
+    ctx.fillStyle = 'rgba(8, 3, 14, 0.55)';
+    ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     ctx.save();
     ctx.textAlign = 'center';
 

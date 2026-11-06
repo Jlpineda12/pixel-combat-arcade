@@ -237,3 +237,6 @@ if (failed > 0) {
 } else {
   console.log('🎉 ALL 26 COMBAT QA TESTS PASSED 100% SUCCESSFULLY!\n');
 }
+
+// Exit explicitly: audio sequencer timers would otherwise keep Node alive
+process.exit(failed > 0 ? 1 : 0);

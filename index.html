@@ -3,74 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Pixel Combat Arcade | 1v1 Retro Fighter</title>
-  <meta name="description" content="Pixel Combat Arcade: Videojuego retro 1v1 estilo Street Fighter con música chiptune de batalla sintetizada en tiempo real mediante Web Audio API. Por Jose Luis Pineda (Ingeniería en Multimedia).">
-  <link rel="stylesheet" href="style.css">
+  <title>PIXEL COMBAT 1984 | JLP Retro Arcade</title>
+  <meta name="description" content="Juego de pelea 1v1 retro con hitboxes, bloqueo, Hadouken, hit-stop y CPU con IA reactiva. Por Jose Luis Pineda (Ingeniería en Multimedia).">
+  <meta name="theme-color" content="#07020f">
+  <meta property="og:title" content="PIXEL COMBAT 1984">
+  <meta property="og:description" content="Juego de pelea 1v1 retro con hitboxes, bloqueo, Hadouken, hit-stop y CPU con IA reactiva.">
+  <meta property="og:image" content="https://jlpineda12.github.io/pixel-combat-arcade/docs/screenshots/menu.png">
+  <link rel="stylesheet" href="src/shell/shell.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🥊</text></svg>">
 </head>
 <body>
-
-  <!-- Perspective 4-Wall Room Background -->
-  <svg class="room-perspective-bg" viewBox="0 0 1000 800" preserveAspectRatio="none" aria-hidden="true">
-    <polygon points="0,0 1000,0 780,140 220,140" fill="#2f2e50" />
-    <polygon points="0,800 1000,800 780,660 220,660" fill="#6060a8" />
-    <polygon points="0,0 220,140 220,660 0,800" fill="#494883" />
-    <polygon points="1000,0 780,140 780,660 1000,800" fill="#494883" />
-    <line x1="0" y1="0" x2="220" y2="140" stroke="#242340" stroke-width="2.5" />
-    <line x1="1000" y1="0" x2="780" y2="140" stroke="#242340" stroke-width="2.5" />
-    <line x1="0" y1="800" x2="220" y2="660" stroke="#242340" stroke-width="2.5" />
-    <line x1="1000" y1="800" x2="780" y2="660" stroke="#242340" stroke-width="2.5" />
-  </svg>
-
   <div class="arcade-viewport">
-    <!-- Arcade Cabinet Frame -->
+    <header data-marquee></header>
+
     <main class="arcade-cabinet">
-      <!-- 4:3 CRT / Dot-Matrix Monitor Screen -->
       <div class="screen-wrapper">
-        <canvas id="game-canvas" width="560" height="420"></canvas>
-        <div id="crt-overlay" class="lcd-dotmatrix-overlay"></div>
+        <canvas id="game-canvas" width="560" height="420" aria-label="Pantalla del juego"></canvas>
       </div>
-
-      <!-- Non-Interactive Decorative Hardware Control Deck (Joystick + Pushbuttons) -->
-      <section class="arcade-control-deck" aria-hidden="true">
-        <div class="joystick-assembly">
-          <div class="joystick-washer"></div>
-          <div class="joystick-shaft"></div>
-          <div class="joystick-balltop"></div>
-        </div>
-
-        <div class="deck-label">★ COMBAT 1984 ★</div>
-
-        <div class="buttons-assembly">
-          <div class="arcade-btn-socket">
-            <div class="arcade-pushbutton">
-              <div class="btn-cap cap-punch"></div>
-            </div>
-            <span class="btn-tag">PUNCH</span>
-          </div>
-          <div class="arcade-btn-socket">
-            <div class="arcade-pushbutton">
-              <div class="btn-cap cap-kick"></div>
-            </div>
-            <span class="btn-tag">KICK</span>
-          </div>
-          <div class="arcade-btn-socket">
-            <div class="arcade-pushbutton">
-              <div class="btn-cap cap-special"></div>
-            </div>
-            <span class="btn-tag">BLAST</span>
-          </div>
-        </div>
-      </section>
+      <section class="arcade-control-deck"></section>
     </main>
 
-    <!-- Footer Credits -->
-    <footer class="arcade-footer">
-      <p>Desarrollado por <a href="https://github.com/Jlpineda12" target="_blank" rel="noopener">Jose Luis Pineda (Jlpineda12)</a> • Ingeniería en Multimedia</p>
-    </footer>
+    <footer data-status></footer>
+    <p class="arcade-footer">
+      Parte de <a href="https://jlpineda12.github.io/arcade-station/">Arcade Station</a> ·
+      Hecho a mano por <a href="https://github.com/Jlpineda12" target="_blank" rel="noopener">Jose Luis Pineda</a> · Ingeniería en Multimedia
+    </p>
   </div>
 
-  <!-- Entry Script -->
   <script type="module" src="src/main.js"></script>
 </body>
 </html>
